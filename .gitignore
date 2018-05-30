@@ -52,7 +52,7 @@ npm-debug.log
 /data/mockUsers.json
 
 # Strategies #
-/config/google.strategy.js
+/config/strategies/google.strategy.js
 
 # Dist #
 /dist
