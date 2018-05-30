@@ -44,6 +44,16 @@ npm-debug.log
 /typings/
 /tsd_typings/
 
+# Public #
+/public/images/
+/public/music/
+
+# Data #
+/data/mockUsers.json
+
+# Strategies #
+/config/google.strategy.js
+
 # Dist #
 /dist
 /public/__build__/
