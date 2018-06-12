@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 var User = require('../model/user.model');
 var mockUserData = require('../data/mockUsers.json');
 
@@ -9,6 +10,8 @@ function getMockUsers() {
   return mockUserData;
 }
 
+
+
 /**
  * Load user and append to req.
  */
@@ -18,15 +21,15 @@ function load(req, res, next, id) {
                                           return user.userId == id;
                                          }
                                 );
-  if(thisUser) {
-    req.user = thisUser; // eslint-disable-line no-param-reassign
-    return next();
-  }
-  else
-  {
-    const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
-    next(err);
-  }
+    if(thisUser) {
+      req.user = thisUser; // eslint-disable-line no-param-reassign
+      return next();
+    }
+    else
+    {
+      const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+      next(err);
+    }
 
 }
 
@@ -35,7 +38,7 @@ function load(req, res, next, id) {
  * @returns {User}
  */
 function get(req, res) {
-  return res.json(req.user);
+    return res.json(req.user);
 }
 
 /**
@@ -79,18 +82,18 @@ function update(req, res, next) {
  * @returns {User[]}
  */
 function list(req, res, next) {
-  // const { limit = 50, skip = 0 } = req.query;
-  var allUsers = getMockUsers();
-  if(allUsers) {
-    // req.allUsers = allUsers; // eslint-disable-line no-param-reassign
-    // return next();
-    res.json(allUsers);
-  }
-  else
-  {
-    const err = new APIError('No users exist!', httpStatus.NOT_FOUND);
-    next(err);
-  }
+    // const { limit = 50, skip = 0 } = req.query;
+    var allUsers = getMockUsers();
+    if(allUsers) {
+      // req.allUsers = allUsers; // eslint-disable-line no-param-reassign
+      // return next();
+      res.json(allUsers);
+    }
+    else
+    {
+      const err = new APIError('No users exist!', httpStatus.NOT_FOUND);
+      next(err);
+    }
 }
 
 /**

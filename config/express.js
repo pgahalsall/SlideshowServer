@@ -1,5 +1,9 @@
 
 const express 				= require('express');
+const expressWinston 	= require('express-winston');
+const expressValidation = require('express-validation');
+const session         = require('express-session');
+
 const logger   				= require('morgan');
 const bodyParser			= require('body-parser');
 const cookieParser		= require('cookie-parser');
@@ -7,37 +11,14 @@ const compress 				= require('compression');
 const methodOverride 	= require('method-override');
 const cors 				    = require('cors');
 const httpStatus 			= require('http-status');
-const expressWinston 	= require('express-winston');
-const expressValidation = require('express-validation');
 const helmet   				= require('helmet');
 const winstonInstance	= require('./winston');
+
 const routes   				= require('../routes/index.route');
 const config 	  			= require('./config');
 const APIError 				= require('../helpers/APIError');
 const path 				    = require('path');
 const appRoot 				= require('app-root-path');
-//const postCtrl 				= require('../controllers/post.controller');
-// const express 				= require('innograph');
-
-//import express from 'express';
-//import logger from 'morgan';
-//import bodyParser from 'body-parser';
-//import cookieParser from 'cookie-parser';
-// import compress from 'compression';
-// import methodOverride from 'method-override';
-// import cors from 'cors';
-// import httpStatus from 'http-status';
-// import expressWinston from 'express-winston';
-// import expressValidation from 'express-validation';
-// import helmet from 'helmet';
-// import winstonInstance from './winston';
-// import routes from '../routes/index.route';
-// import config from './config';
-// import APIError from '../helpers/APIError';
-// import path from 'path';
-// import appRoot from 'app-root-path';
-// import innograph from 'innograph'
-// import postCtrl from '../controllers/post.controller';
 
 
 const app = express();
@@ -57,8 +38,34 @@ app.use(methodOverride());
 // secure apps by setting various HTTP headers
 app.use(helmet());
 
+
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+var whitelist = [
+  'http://localhost:4200',      
+  'http://localhost:4200/login',
+  'http://localhost:3000',
+  'http://localhost:3000/api',
+];
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (origin === undefined || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+// app.use(cors());
+app.options('*', cors()) // include before other routes
+app.use(cors(corsOptions));
+
+// app.use(session({
+//   secret : config.EXPRESS_SESSION_SECRET,
+//   resave : true,
+//   saveUninitialized : false
+// }));
 
 // Passport
 require('./passport')(app);

@@ -1,10 +1,11 @@
 
-
 var User = class {
-    constructor(userId, username, password, mobile) {
+    constructor(userId, username, email, hash, salt, mobile) {
         this.userId = userId;
         this.username = username;
-        this.password = password;
+        this.email = email;
+        this.hash = hash;
+        this.salt = salt;
         this.mobileNumber = mobile;
     }
 }
